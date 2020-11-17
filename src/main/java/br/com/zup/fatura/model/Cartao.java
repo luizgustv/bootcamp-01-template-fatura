@@ -15,7 +15,6 @@ public class Cartao {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    @JsonProperty("id")
     private String numeroCartao;
     private String email;
 

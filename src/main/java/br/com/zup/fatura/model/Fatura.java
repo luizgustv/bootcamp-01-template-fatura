@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@NamedQuery(name = "buscarFaturaPorNumCartao", query = "select f from Fatura f " +
+        "where f.cartao.numeroCartao =:numero and mes =:mes and ano =:ano")
 public class Fatura {
 
     @Id
@@ -53,6 +55,11 @@ public class Fatura {
 
     public void adicionarTrasacaoNaFatura(TransacaoCartao transacaoCartao){
         this.transacoes.add(transacaoCartao);
+    }
+
+    public BigDecimal calcularFatura(){
+        return this.transacoes.stream().map(t -> t.getValor()).reduce(
+                BigDecimal.ZERO, (s1, s2) -> s1.add(s2));
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -29,13 +30,19 @@ public class FaturaConsultaController {
                                                @PathVariable("mes") Integer mes,
                                                @PathVariable("ano") Integer ano){
 
+        Optional<Cartao> possivelCartao = Optional
+                .ofNullable(entityManager.find(Cartao.class, idCartao));
+
+        if (possivelCartao.isEmpty())
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+
         TypedQuery<Fatura> typedQuery = entityManager
-                .createQuery("select f from Fatura f where f.cartao.id =: idCartao and f.mes =: mes and f.ano =: ano ",
-                        Fatura.class);
-        typedQuery.setParameter("idCartao", idCartao);
+                .createNamedQuery("buscarFaturaPorNumCartao", Fatura.class);
+        typedQuery.setParameter("numero", possivelCartao.get().getNumeroCartao());
         typedQuery.setParameter("mes", mes);
         typedQuery.setParameter("ano", ano);
 
+        //não houve gastos no mês
         if (typedQuery.getResultList().isEmpty()) //1
             return new ResponseEntity(HttpStatus.NOT_FOUND);
 

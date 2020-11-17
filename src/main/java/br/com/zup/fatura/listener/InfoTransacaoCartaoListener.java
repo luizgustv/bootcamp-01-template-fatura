@@ -7,14 +7,12 @@ import br.com.zup.fatura.model.TransacaoCartao;
 import br.com.zup.fatura.request.TransacaoCartaoRequest;
 import br.com.zup.fatura.service.CartaoService;
 import br.com.zup.fatura.service.FaturaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 @Component
 public class InfoTransacaoCartaoListener {
@@ -42,7 +40,7 @@ public class InfoTransacaoCartaoListener {
 
         Cartao cartao = cartaoService.buscarCartao(request.getCartao()); //3
 
-        Fatura fatura = faturaService.buscarFatura(new Fatura(ano, mes, cartao)); //4
+        Fatura fatura = faturaService.buscarFaturaByFatura(new Fatura(ano, mes, cartao)); //4
         fatura.adicionarTrasacaoNaFatura(novaTransacaoCartao);
         entityManager.merge(fatura);
 

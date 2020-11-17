@@ -1,6 +1,5 @@
 package br.com.zup.fatura.request;
 
-import br.com.zup.fatura.model.Cartao;
 import br.com.zup.fatura.model.Estabelecimento;
 import br.com.zup.fatura.model.TransacaoCartao;
 
@@ -12,14 +11,14 @@ public class TransacaoCartaoRequest {
     private String id;
     private BigDecimal valor;
     private Estabelecimento estabelecimento;
-    private Cartao cartao;
+    private CartaoRequest cartao;
     private LocalDateTime efetivadaEm;
 
     @Deprecated
     public TransacaoCartaoRequest(){}
 
     public TransacaoCartaoRequest(String id, BigDecimal valor,
-                                  Estabelecimento estabelecimento, Cartao cartao,
+                                  Estabelecimento estabelecimento, CartaoRequest cartao,
                                   LocalDateTime efetivadaEm) {
         this.id = id;
         this.valor = valor;
@@ -40,7 +39,7 @@ public class TransacaoCartaoRequest {
         return estabelecimento;
     }
 
-    public Cartao getCartao() {
+    public CartaoRequest getCartao() {
         return cartao;
     }
 

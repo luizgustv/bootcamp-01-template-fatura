@@ -1,6 +1,7 @@
 package br.com.zup.fatura.service;
 
 import br.com.zup.fatura.model.Cartao;
+import br.com.zup.fatura.request.CartaoRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +18,22 @@ public class CartaoService {
     }
 
     @Transactional
-    public Cartao buscarCartao(Cartao cartao){ //1
+    public Cartao buscarCartao(CartaoRequest cartaoRequest){ //1
 
         TypedQuery<Cartao> query = entityManager
                 .createQuery("select c from Cartao c where c.numeroCartao =:numero",
                         Cartao.class);
-        query.setParameter("numero", cartao.getNumeroCartao());
+        query.setParameter("numero", cartaoRequest.getId());
 
         if (query.getResultList().isEmpty()){ //2
+
+            Cartao cartao = new Cartao(cartaoRequest.getId(), cartaoRequest.getEmail());
+
             entityManager.persist(cartao);
             return cartao;
         }
         return query.getResultList().get(0);
     }
+
 
 }

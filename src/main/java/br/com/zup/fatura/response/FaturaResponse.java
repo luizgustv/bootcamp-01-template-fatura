@@ -15,7 +15,7 @@ public class FaturaResponse {
     private Integer ano;
     private Integer mes;
     private Cartao cartao;
-    private List<TransacaoCartao> transacoes = new ArrayList<>();
+    private List<TransacaoCartao> transacoes;
     private BigDecimal totalFatura;
 
     public FaturaResponse(Fatura fatura) {
@@ -23,7 +23,7 @@ public class FaturaResponse {
         this.ano = fatura.getAno();
         this.cartao = fatura.getCartao();
         this.transacoes = fatura.getTransacoes();
-        calcularFatura();
+        this.totalFatura = fatura.calcularFatura();
     }
 
     public Integer getAno() {
@@ -46,10 +46,5 @@ public class FaturaResponse {
         return totalFatura;
     }
 
-    public BigDecimal calcularFatura(){
-        this.totalFatura = this.transacoes.stream().map(t -> t.getValor()).reduce(
-                BigDecimal.ZERO, (s1, s2) -> s1.add(s2));
-        return totalFatura;
-    }
 
 }
