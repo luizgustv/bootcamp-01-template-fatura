@@ -31,7 +31,6 @@ public class Fatura {
         this.cartao = cartao;
     }
 
-
     public Integer getAno() {
         return ano;
     }
@@ -48,7 +47,7 @@ public class Fatura {
         return transacoes;
     }
 
-    public UUID numeroCartao(){
+    public String numeroCartao(){
         return this.cartao.getNumeroCartao();
     }
 

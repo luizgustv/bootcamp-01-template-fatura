@@ -15,7 +15,7 @@ import javax.persistence.TypedQuery;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/faturas")
+@RequestMapping("/api/cartoes/faturas")
 public class FaturaConsultaController {
 
     private EntityManager entityManager;

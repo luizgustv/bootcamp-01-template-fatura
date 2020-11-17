@@ -16,18 +16,18 @@ public class Cartao {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     @JsonProperty("id")
-    private UUID numeroCartao;
+    private String numeroCartao;
     private String email;
 
     @Deprecated
     public Cartao(){}
 
-    public Cartao(UUID numeroCartao, String email) {
+    public Cartao(String numeroCartao, String email) {
         this.numeroCartao = numeroCartao;
         this.email = email;
     }
 
-    public UUID getNumeroCartao() {
+    public String getNumeroCartao() {
         return numeroCartao;
     }
 

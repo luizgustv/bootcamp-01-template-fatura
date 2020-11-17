@@ -1,7 +1,6 @@
 package br.com.zup.fatura.configuration;
 
 
-import br.com.zup.fatura.model.TransacaoCartao;
 import br.com.zup.fatura.request.TransacaoCartaoRequest;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;

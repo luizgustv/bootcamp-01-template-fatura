@@ -19,7 +19,8 @@ public class TransacaoCartaoRequest {
     public TransacaoCartaoRequest(){}
 
     public TransacaoCartaoRequest(String id, BigDecimal valor,
-                                  Estabelecimento estabelecimento, Cartao cartao, LocalDateTime efetivadaEm) {
+                                  Estabelecimento estabelecimento, Cartao cartao,
+                                  LocalDateTime efetivadaEm) {
         this.id = id;
         this.valor = valor;
         this.estabelecimento = estabelecimento;

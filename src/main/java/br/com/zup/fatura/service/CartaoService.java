@@ -1,7 +1,6 @@
 package br.com.zup.fatura.service;
 
 import br.com.zup.fatura.model.Cartao;
-import br.com.zup.fatura.model.Fatura;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
