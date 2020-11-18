@@ -1,8 +1,11 @@
 package br.com.zup.fatura.response;
 
 import br.com.zup.fatura.model.Fatura;
+import br.com.zup.fatura.model.TransacaoCartao;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartaoSaldoResponse {
 
@@ -10,17 +13,22 @@ public class CartaoSaldoResponse {
     private BigDecimal limite;
     private BigDecimal totalFatura;
     private BigDecimal saldoDisponível;
+    private List<TransacaoCartao> transacoes;
 
     public CartaoSaldoResponse(Fatura fatura, BigDecimal limite) {
         this.numeroCartao = fatura.numeroCartao();
         this.limite = limite;
-        totalFatura = fatura.calcularFatura();
+        this.transacoes = fatura.getTransacoes();
+        this.totalFatura = fatura.calcularFatura();
         saldoDisponível = calcularSaldoDisponivel();
     }
 
-
     public String getNumeroCartao() {
         return numeroCartao;
+    }
+
+    public List<TransacaoCartao> getTransacoes() {
+        return transacoes;
     }
 
     public BigDecimal getTotalFatura() {

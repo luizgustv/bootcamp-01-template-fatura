@@ -21,7 +21,7 @@ public class CartaoLegadoService {
             LimiteCartaoResponse request = integracaoCartao.buscarCartaoById(idCartao);
             return request.getLimite();
         }catch (FeignException ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Houve um problema durante a" +
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Houve um problema durante a" +
                     "tentativa de comunicação com o servidor");
         }
     }

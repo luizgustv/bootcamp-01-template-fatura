@@ -11,6 +11,10 @@ import java.util.UUID;
 @Entity
 @NamedQuery(name = "buscarFaturaPorNumCartao", query = "select f from Fatura f " +
         "where f.cartao.numeroCartao =:numero and mes =:mes and ano =:ano")
+@NamedQuery(name = "buscarDezUltimasTransacoes", query = "select f from Fatura f " +
+        "join fetch f.transacoes t" +
+        " where f.cartao.numeroCartao =:numero and mes =:mes and ano =:ano" +
+        " order by t.efetivadaEm desc")
 public class Fatura {
 
     @Id

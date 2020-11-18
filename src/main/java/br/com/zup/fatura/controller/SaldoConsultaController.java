@@ -3,6 +3,7 @@ package br.com.zup.fatura.controller;
 import br.com.zup.fatura.model.Cartao;
 import br.com.zup.fatura.model.Fatura;
 import br.com.zup.fatura.response.CartaoSaldoResponse;
+import br.com.zup.fatura.response.LimiteCartaoResponse;
 import br.com.zup.fatura.service.CartaoLegadoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,8 @@ public class SaldoConsultaController {
     @GetMapping("/{id}/saldo")
     public ResponseEntity consultarLimite(@PathVariable("id")UUID idCartao){
 
-        Optional<Cartao> possivelCartao = Optional.of(entityManager.find(Cartao.class, idCartao)); //2
+        Optional<Cartao> possivelCartao = Optional
+                .ofNullable(entityManager.find(Cartao.class, idCartao)); //2
 
         if (possivelCartao.isEmpty()) //3
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -42,10 +44,11 @@ public class SaldoConsultaController {
                 .buscarCartao(possivelCartao.get().getNumeroCartao());
 
         TypedQuery<Fatura> typedQuery = entityManager
-                .createNamedQuery("buscarFaturaPorNumCartao", Fatura.class); //4
+                .createNamedQuery("buscarDezUltimasTransacoes", Fatura.class); //4
         typedQuery.setParameter("numero", possivelCartao.get().getNumeroCartao());
         typedQuery.setParameter("mes", LocalDateTime.now().getMonthValue());
         typedQuery.setParameter("ano", LocalDateTime.now().getYear());
+        typedQuery.setMaxResults(10);
 
         if (typedQuery.getResultList().isEmpty()) //5
             return new ResponseEntity(HttpStatus.NOT_FOUND);
