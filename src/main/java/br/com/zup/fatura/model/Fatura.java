@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +38,10 @@ public class Fatura {
         this.cartao = cartao;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public Integer getAno() {
         return ano;
     }
@@ -59,6 +64,14 @@ public class Fatura {
 
     public void adicionarTrasacaoNaFatura(TransacaoCartao transacaoCartao){
         this.transacoes.add(transacaoCartao);
+    }
+
+    public Boolean faturaPertenceCartao(UUID idCartao){
+        return this.cartao.getId().equals(idCartao);
+    }
+
+    public Boolean faturaPertenceMesCorrente(){
+        return this.mes == LocalDateTime.now().getMonthValue();
     }
 
     public BigDecimal calcularFatura(){
