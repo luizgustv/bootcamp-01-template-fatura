@@ -5,33 +5,34 @@ import br.com.zup.fatura.model.Parcela;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.UUID;
 
 public class ParcelaRequest {
 
     @Min(1)
     private @NotNull int quantidade;
     @Min(1)
-    private @NotNull int valorParcela;
+    private @NotNull BigDecimal valor;
 
     @Deprecated
     public ParcelaRequest(){}
 
-    public ParcelaRequest(@Min(1) @NotNull int quantidade, @Min(1) @NotNull int valorParcela) {
+    public ParcelaRequest(@Min(1) @NotNull int quantidade, @Min(1) @NotNull BigDecimal valor) {
         this.quantidade = quantidade;
-        this.valorParcela = valorParcela;
+        this.valor = valor;
     }
 
     public int getQuantidade() {
         return quantidade;
     }
 
-    public int getValorParcela() {
-        return valorParcela;
+    public BigDecimal getValor() {
+        return valor;
     }
 
     public Parcela toParcela(Fatura fatura) {
-        return new Parcela(quantidade, valorParcela, fatura);
+        return new Parcela(quantidade, valor, fatura);
     }
-
 
 }
