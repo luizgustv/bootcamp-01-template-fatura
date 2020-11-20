@@ -3,7 +3,6 @@ package br.com.zup.fatura.controller;
 import br.com.zup.fatura.model.Fatura;
 import br.com.zup.fatura.model.Parcela;
 import br.com.zup.fatura.request.ParcelaRequest;
-import br.com.zup.fatura.service.CartaoLegadoService;
 import br.com.zup.fatura.service.ParcelamentoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

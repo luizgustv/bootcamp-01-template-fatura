@@ -3,6 +3,8 @@ package br.com.zup.fatura.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +24,9 @@ public class Fatura {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
+    @Min(2000)
     private Integer ano;
+    @Min(1) @Max(12)
     private Integer mes;
     private Integer diaVencimento;
     @ManyToOne
