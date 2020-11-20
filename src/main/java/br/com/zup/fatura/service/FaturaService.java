@@ -20,11 +20,6 @@ public class FaturaService {
     @Transactional
     public Fatura buscarFaturaByFatura(Fatura fatura){ //3
 
-        /*TypedQuery<Fatura> query = entityManager
-                .createQuery("select f from Fatura f where " +
-                                "f.cartao.numeroCartao =:numero and mes =:mes and ano =:ano",
-                        Fatura.class);*/
-
         TypedQuery<Fatura> typedQuery = entityManager
                 .createNamedQuery("buscarFaturaPorNumCartao", Fatura.class);
         typedQuery.setParameter("numero", fatura.numeroCartao());

@@ -1,6 +1,7 @@
 package br.com.zup.fatura.integration;
 
 import br.com.zup.fatura.model.enums.StatusAprovacaoParcelamento;
+import br.com.zup.fatura.request.AlterarDataRequest;
 import br.com.zup.fatura.request.ParcelaClientRequest;
 import br.com.zup.fatura.request.ParcelaRequest;
 import br.com.zup.fatura.request.RenegociacaoFaturaClientRequest;
@@ -29,5 +30,9 @@ public interface IntegracaoCartao {
     @PostMapping("/api/cartoes/{id}/renegociacoes")
     RegociacaoFaturaResponse solicitarRenegociacao(@PathVariable("id") String numeroCartao,
                                                    @RequestBody RenegociacaoFaturaClientRequest request);
+
+    @PostMapping("api/cartoes/{id}/vencimentos")
+    ResponseEntity socilitarAlteracaoDataFatura(@PathVariable("id") String numeroCartao,
+                                                @RequestBody AlterarDataRequest request);
 
 }

@@ -8,13 +8,17 @@ public class AlterarDataRequest {
 
     @NotNull
     @Min(1) @Max(30)
-    private int dataVencimento;
+    private int dia;
 
     @Deprecated
     public AlterarDataRequest(){}
 
-    public int getDataVencimento() {
-        return dataVencimento;
+    public AlterarDataRequest(@NotNull @Min(1) @Max(30) int dia) {
+        this.dia = dia;
+    }
+
+    public int getDia() {
+        return dia;
     }
 
 }
