@@ -4,6 +4,7 @@ import br.com.zup.fatura.model.Fatura;
 import br.com.zup.fatura.model.Parcela;
 import br.com.zup.fatura.request.ParcelaRequest;
 import br.com.zup.fatura.service.CartaoLegadoService;
+import br.com.zup.fatura.service.ParcelamentoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +20,12 @@ import java.util.UUID;
 @RequestMapping("/api/cartoes")
 public class ParcelaFaturaController {
 
-    private CartaoLegadoService cartaoLegadoService;
+    private ParcelamentoService parcelamentoService;
     private EntityManager entityManager;
 
-    public ParcelaFaturaController(EntityManager entityManager, CartaoLegadoService cartaoLegadoService) {
+    public ParcelaFaturaController(EntityManager entityManager, ParcelamentoService parcelamentoService) {
         this.entityManager = entityManager;
-        this.cartaoLegadoService = cartaoLegadoService;
+        this.parcelamentoService = parcelamentoService; //1
     }
 
     @PostMapping("/{idCartao}/faturas/{idFatura}/parcela")
@@ -32,27 +33,27 @@ public class ParcelaFaturaController {
     public ResponseEntity parcelarFatura(@PathVariable("idCartao")UUID idCartao,
                                          @PathVariable("idFatura") UUID idFatura,
                                          @RequestBody @Valid ParcelaRequest request,
-                                         UriComponentsBuilder builder){ //1
+                                         UriComponentsBuilder builder){ //2
 
         Optional<Fatura> possivelFatura = Optional
                 .ofNullable(entityManager.find(Fatura.class,
-                        idFatura)); //2
+                        idFatura)); //3
 
-        if (possivelFatura.isEmpty()) //3
+        if (possivelFatura.isEmpty()) //4
             return new ResponseEntity(HttpStatus.NOT_FOUND);
 
         Fatura fatura = possivelFatura.get();
 
-        if (!fatura.faturaPertenceCartao(idCartao) || !fatura.faturaPertenceMesCorrente()) //4
+        if (!fatura.faturaPertenceCartao(idCartao) || !fatura.faturaPertenceMesCorrente()) //5
             return new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
 
         //refatorar para receber apenas a quantidade
         //o valor será feito de acordo com o valor da fatura
-        Parcela parcela = request.toParcela(fatura); //4
+        Parcela parcela = request.toParcela(fatura); //6
         entityManager.persist(parcela);
 
-        parcela.atualizaStatusParcelamento(cartaoLegadoService
-                .solicitarParcelamento(fatura.numeroCartao(), request, idFatura)); //5
+        parcela.atualizaStatusParcelamento(parcelamentoService
+                .solicitarParcelamento(fatura.numeroCartao(), request, idFatura)); //7?
 
         entityManager.merge(parcela);
 

@@ -1,11 +1,9 @@
 package br.com.zup.fatura.model;
 
+import br.com.zup.fatura.model.enums.StatusAprovacaoRenegociacao;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
@@ -27,7 +25,9 @@ public class RenegociacaoFatura {
     private Cartao cartao;
     @ManyToOne @Valid
     private Fatura fatura;
-    private LocalDate dataVencimento;
+    private LocalDate dataPagamento;
+    @Enumerated(EnumType.STRING)
+    private StatusAprovacaoRenegociacao statusAprovacaoRenegociacao;
 
     @Deprecated
     public RenegociacaoFatura(){}
@@ -37,15 +37,19 @@ public class RenegociacaoFatura {
         this.quantidade = quantidade;
         this.valor = valor;
         this.cartao = fatura.getCartao();
-        this.dataVencimento = LocalDate.now().plusDays(120);//variavel de ambiente
+        this.dataPagamento = LocalDate.now().plusDays(120);//variavel de ambiente
     }
 
     public UUID getId() {
         return id;
     }
 
-    public LocalDate getDataVencimento() {
-        return dataVencimento;
+    public LocalDate getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void atualizarStatusRenegociacao(StatusAprovacaoRenegociacao solicitarRenegociacao) {
+        this.statusAprovacaoRenegociacao = solicitarRenegociacao;
     }
 
 }

@@ -24,6 +24,7 @@ public class Fatura {
     private UUID id;
     private Integer ano;
     private Integer mes;
+    private Integer diaVencimento;
     @ManyToOne
     private Cartao cartao;
     @OneToMany
@@ -48,6 +49,10 @@ public class Fatura {
 
     public Integer getMes() {
         return mes;
+    }
+
+    public Integer getDiaVencimento() {
+        return diaVencimento;
     }
 
     public Cartao getCartao() {
@@ -87,6 +92,10 @@ public class Fatura {
                 ", cartao=" + cartao +
                 ", transacoes=" + transacoes +
                 '}';
+    }
+
+    public void alterarDiaVencimento(Integer dataVencimento) {
+        this.diaVencimento = dataVencimento;
     }
 
 }

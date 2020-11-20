@@ -3,15 +3,20 @@ package br.com.zup.fatura.request;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class ParcelaClientRequest {
+public class RenegociacaoFaturaClientRequest {
 
     private UUID identificadorDaFatura;
     private int quantidade;
     private BigDecimal valor;
 
-    public ParcelaClientRequest(){}
+    public RenegociacaoFaturaClientRequest(UUID identificadorDaFatura,
+                                           int quantidade, BigDecimal valor) {
+        this.identificadorDaFatura = identificadorDaFatura;
+        this.quantidade = quantidade;
+        this.valor = valor;
+    }
 
-    public ParcelaClientRequest(UUID idFatura, ParcelaRequest request) {
+    public RenegociacaoFaturaClientRequest(UUID idFatura, RenegociacaoFaturaRequest request) {
         this.identificadorDaFatura = idFatura;
         this.quantidade = request.getQuantidade();
         this.valor = request.getValor();

@@ -21,33 +21,19 @@ import java.util.UUID;
 @Service
 public class CartaoLegadoService {
 
-    @Autowired
-    private IntegracaoCartao integracaoCartao;
+    private IntegracaoCartao integracaoCartao; //1
 
-    public BigDecimal buscarCartao(String numeroCartao){
-        try{
-            LimiteCartaoResponse response = integracaoCartao.buscarCartaoById(numeroCartao);
-            return response.getLimite();
-        }catch (FeignException ex){
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Houve um problema durante a" +
-                    "tentativa de comunicação com o servidor");
-        }
+    public CartaoLegadoService(IntegracaoCartao integracaoCartao) {
+        this.integracaoCartao = integracaoCartao;
     }
 
-    public StatusAprovacaoParcelamento solicitarParcelamento(String numeroCartao, ParcelaRequest request, UUID idFatura){
-
-        try {
-
-            ParcelaClientRequest parcelaClientRequest =
-                    new ParcelaClientRequest(idFatura, request);
-
-            ParcelaClientReponse response =
-                    integracaoCartao.solicitarParcelamento(numeroCartao,parcelaClientRequest);
-
-            return response.getResultado();
-
-        }catch (FeignException ex){
-            return StatusAprovacaoParcelamento.NEGADO;
+    public BigDecimal buscarCartao(String numeroCartao){
+        try{ //3
+            LimiteCartaoResponse response = integracaoCartao.buscarCartaoById(numeroCartao); //4
+            return response.getLimite();
+        }catch (FeignException ex){//5
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Houve um problema durante a" +
+                    "tentativa de comunicação com o servidor");
         }
     }
 

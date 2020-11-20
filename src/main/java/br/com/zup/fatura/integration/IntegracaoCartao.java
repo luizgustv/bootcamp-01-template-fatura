@@ -3,8 +3,10 @@ package br.com.zup.fatura.integration;
 import br.com.zup.fatura.model.enums.StatusAprovacaoParcelamento;
 import br.com.zup.fatura.request.ParcelaClientRequest;
 import br.com.zup.fatura.request.ParcelaRequest;
+import br.com.zup.fatura.request.RenegociacaoFaturaClientRequest;
 import br.com.zup.fatura.response.LimiteCartaoResponse;
 import br.com.zup.fatura.response.ParcelaClientReponse;
+import br.com.zup.fatura.response.RegociacaoFaturaResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,5 +25,9 @@ public interface IntegracaoCartao {
     @PostMapping("/api/cartoes/{id}/parcelas")
     ParcelaClientReponse solicitarParcelamento(@PathVariable("id") String numeroCartao,
                                                @RequestBody ParcelaClientRequest request);
+
+    @PostMapping("/api/cartoes/{id}/renegociacoes")
+    RegociacaoFaturaResponse solicitarRenegociacao(@PathVariable("id") String numeroCartao,
+                                                   @RequestBody RenegociacaoFaturaClientRequest request);
 
 }

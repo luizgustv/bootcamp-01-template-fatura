@@ -3,6 +3,7 @@ package br.com.zup.fatura.controller;
 import br.com.zup.fatura.model.Fatura;
 import br.com.zup.fatura.model.RenegociacaoFatura;
 import br.com.zup.fatura.request.RenegociacaoFaturaRequest;
+import br.com.zup.fatura.service.RenegociacaoFaturaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +19,13 @@ import java.util.UUID;
 @RequestMapping("/api/cartoes")
 public class RenegociacaoFaturaController {
 
+    private RenegociacaoFaturaService renegociacaoFaturaService;
     private EntityManager entityManager;
 
-    public RenegociacaoFaturaController(EntityManager entityManager) {
+    public RenegociacaoFaturaController(EntityManager entityManager,
+                                        RenegociacaoFaturaService renegociacaoFaturaService) {
         this.entityManager = entityManager;
+        this.renegociacaoFaturaService = renegociacaoFaturaService;
     }
 
     @PostMapping("/{idCartao}/faturas/{idFatura}/renegociacoes")
@@ -40,9 +44,14 @@ public class RenegociacaoFaturaController {
         if (!fatura.faturaPertenceCartao(idCartao) || !fatura.faturaPertenceMesCorrente()) //4
             return new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
 
-        RenegociacaoFatura novaRenegociacaoFatura = request.toRenegociacao(fatura);
-
+        RenegociacaoFatura novaRenegociacaoFatura = request.toRenegociacao(fatura); //5
         entityManager.persist(novaRenegociacaoFatura);
+
+        novaRenegociacaoFatura.atualizarStatusRenegociacao(renegociacaoFaturaService
+                .solicitarRenegociacao(fatura.numeroCartao(),
+                request, idFatura)); //6
+
+        entityManager.merge(novaRenegociacaoFatura);
 
         return ResponseEntity.created(builder.path("/api/cartoes/{id}/" +
                 "faturas/{id}/renegociacoes/{id}").buildAndExpand(possivelFatura.get().numeroCartao(),
